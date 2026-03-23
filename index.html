@@ -169,10 +169,33 @@
                     }
                 },
 
-                getMockLocation() {
-                    this.location = { latitude: 21.1619, longitude: -86.8515 };
-                    this.address = "Región 95, Calle 20, Cancún, Q.R.";
-                    this.calculateDistance();
+                getUserLocation() {
+                    if (!navigator.geolocation) {
+                        alert("Tu navegador no soporta geolocalización");
+                        return;
+                    }
+
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            this.location = {
+                                latitude: position.coords.latitude,
+                                longitude: position.coords.longitude
+                            };
+
+                            // Generar link de Google Maps con coordenadas
+                            this.address = `https://www.google.com/maps?q=${this.location.latitude},${this.location.longitude}`;
+
+                            this.calculateDistance();
+                        },
+                        (error) => {
+                            console.error(error);
+                            alert("No se pudo obtener tu ubicación");
+                        },
+                        {
+                            enableHighAccuracy: true,
+                            timeout: 10000
+                        }
+                    );
                 },
 
                 calculateDistance() {
@@ -208,7 +231,7 @@
                         ? `Efectivo (Paga con: $${this.user.changeOf || 'Cambio exacto'})`
                         : this.user.paymentMethod;
 
-                    const text = `🔥 *PEDIDO - AL FOGONAZO*\n\n👤 *Cliente:* ${this.user.name}\n📞 *Tel:* ${this.user.phone}\n📍 *Dirección:* ${this.address}\n\n📏 *Distancia:* ${this.distance.toFixed(1)}km\n🚚 *Envío:* $${this.deliveryFee}\n\n🍗 *Productos:*\n${items}\n\n💳 *Método de Pago:* ${payment}\n💰 *TOTAL:* $${this.cartTotal + this.deliveryFee}`;
+                    const text = `🔥 *PEDIDO - AL FOGONAZO*\n\n👤 *Cliente:* ${this.user.name}\n📞 *Tel:* ${this.user.phone}\n📍 📍 *Ubicación:* ${this.address}\n\n📏 *Distancia:* ${this.distance.toFixed(1)}km\n🚚 *Envío:* $${this.deliveryFee}\n\n🍗 *Productos:*\n${items}\n\n💳 *Método de Pago:* ${payment}\n💰 *TOTAL:* $${this.cartTotal + this.deliveryFee}`;
                     window.open(`https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(text)}`, '_blank');
                 }
             }));
@@ -431,14 +454,17 @@
                             <div class="space-y-3">
                                 <i class="fas fa-map-marked-alt text-3xl text-primary opacity-30"></i>
                                 <p class="text-sm dark:text-gray-400 font-medium">Fija tu ubicación para el envío</p>
-                                <button @click="getMockLocation()" class="bg-primary text-white px-6 py-3 rounded-xl font-black text-xs active:scale-95 transition-transform">📍 OBTENER UBICACIÓN</button>
+                                <button @click="getUserLocation()" class="bg-primary text-white px-6 py-3 rounded-xl font-black text-xs active:scale-95 transition-transform">📍 OBTENER UBICACIÓN</button>
                             </div>
                         </template>
                         <template x-if="address">
                             <div class="text-left space-y-2">
-                                <p class="text-[10px] font-bold text-green-500 uppercase flex items-center gap-1"><i class="fas fa-check-circle"></i> Ubicación Lista</p>
-                                <p class="text-xs dark:text-white font-medium" x-text="address"></p>
-                                <p class="text-[10px] text-primary font-black uppercase tracking-tighter" x-text="'Costo de envío según distancia (' + distance.toFixed(1) + ' km)'"></p>
+                                <p class="text-xs dark:text-white font-medium">
+                                    Ubicación obtenida correctamente 📍
+                                </p>
+                                <a :href="address" target="_blank" class="text-primary text-xs underline">
+                                    Ver en mapa
+                                </a>
                             </div>
                         </template>
                     </div>
