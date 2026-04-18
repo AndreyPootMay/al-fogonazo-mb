@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { useCartStore } from '../stores/useCartStore'
 import { useUIStore } from '../stores/useUIStore'
@@ -6,7 +6,6 @@ import { useAuthStore } from '../stores/useAuthStore'
 import { supabase } from '../lib/supabase'
 import { getUserLocation, calculateDistance, calculateDeliveryFee, getMapsLink } from '../utils/delivery'
 import { sendOrderWhatsApp } from '../utils/whatsapp'
-import TurnstileWidget from './TurnstileWidget'
 
 export default function CheckoutModal() {
   const { checkoutModalOpen, setCheckoutModalOpen, checkoutStep, setCheckoutStep } = useUIStore()
@@ -25,7 +24,6 @@ export default function CheckoutModal() {
   const [distance, setDistance] = useState(0)
   const [deliveryFee, setDeliveryFee] = useState(0)
   const [locating, setLocating] = useState(false)
-  const [turnstileToken, setTurnstileToken] = useState(null)
 
   const handleLocate = async () => {
     setLocating(true)
@@ -43,10 +41,6 @@ export default function CheckoutModal() {
     }
   }
 
-  const onTurnstileVerify = useCallback((token) => {
-    setTurnstileToken(token)
-  }, [])
-
   const createOrderMutation = useMutation({
     mutationFn: async (orderData) => {
       const { data, error } = await supabase
@@ -60,11 +54,6 @@ export default function CheckoutModal() {
   })
 
   const handleSubmitOrder = async () => {
-    if (!turnstileToken) {
-      alert('Por favor completa la verificacion de seguridad')
-      return
-    }
-
     const orderData = {
       user_id: user?.id || null,
       customer_name: form.name,
@@ -78,7 +67,6 @@ export default function CheckoutModal() {
       total: cartTotal + deliveryFee,
       payment_method: form.paymentMethod,
       change_amount: form.paymentMethod === 'Efectivo' ? Number(form.changeOf) || null : null,
-      turnstile_token: turnstileToken,
       whatsapp_sent: true,
       whatsapp_sent_at: new Date().toISOString(),
     }
@@ -319,14 +307,6 @@ export default function CheckoutModal() {
                 </div>
               </div>
 
-              {/* Turnstile */}
-              <div className="space-y-2">
-                <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest text-center">
-                  Verificacion de seguridad
-                </p>
-                <TurnstileWidget onVerify={onTurnstileVerify} />
-              </div>
-
               {/* Actions */}
               <div className="flex gap-3">
                 <button
@@ -337,7 +317,7 @@ export default function CheckoutModal() {
                 </button>
                 <button
                   onClick={handleSubmitOrder}
-                  disabled={!turnstileToken || createOrderMutation.isPending}
+                  disabled={createOrderMutation.isPending}
                   className="flex-1 bg-[#25D366] text-white py-4 rounded-2xl font-black flex items-center justify-center gap-3 shadow-xl shadow-green-500/20 active:scale-95 transition-transform uppercase text-sm tracking-widest disabled:opacity-40"
                 >
                   {createOrderMutation.isPending ? (
