@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Confirma tu cuenta</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f9fafb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#f9fafb;padding:32px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:560px;background-color:#ffffff;border-radius:24px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,0.08);">
+
+          <tr>
+            <td align="center" style="background:linear-gradient(135deg,#DC2626 0%,#F97316 100%);padding:40px 24px;">
+              <div style="display:inline-block;width:72px;height:72px;background-color:rgba(255,255,255,0.2);border-radius:50%;line-height:72px;font-size:36px;">🔥</div>
+              <h1 style="margin:16px 0 4px 0;color:#ffffff;font-size:26px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">
+                Al Fogonazo
+              </h1>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:40px 32px 32px 32px;">
+              <h2 style="margin:0 0 16px 0;color:#111827;font-size:22px;font-weight:700;">
+                Confirma tu cuenta
+              </h2>
+              <p style="margin:0 0 24px 0;color:#4b5563;font-size:15px;line-height:1.6;">
+                Para completar tu registro, visita el siguiente enlace:
+              </p>
+
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td align="center">
+                    <a href="{{ .ConfirmationURL }}"
+                       style="display:inline-block;background-color:#DC2626;color:#ffffff;text-decoration:none;padding:14px 36px;border-radius:14px;font-size:15px;font-weight:700;">
+                      Confirmar cuenta
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:32px 0 8px 0;color:#9ca3af;font-size:12px;text-align:center;">
+                Si el boton no funciona, copia este enlace en tu navegador:
+              </p>
+              <p style="margin:0;text-align:center;word-break:break-all;">
+                <a href="{{ .ConfirmationURL }}" style="color:#DC2626;font-size:12px;text-decoration:underline;">
+                  {{ .ConfirmationURL }}
+                </a>
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="background-color:#f9fafb;padding:20px 32px;border-top:1px solid #e5e7eb;">
+              <p style="margin:0 0 6px 0;color:#6b7280;font-size:12px;text-align:center;">
+                Si no realizaste este registro, puedes ignorar este mensaje.
+              </p>
+              <p style="margin:0;color:#9ca3af;font-size:11px;text-align:center;">
+                Al Fogonazo &bull; Cancun, Quintana Roo
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

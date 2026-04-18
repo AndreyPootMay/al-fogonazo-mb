@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html.dark body {
+    background-color: #0B0B0B;
+    color: #f3f4f6;
+  }
+  body {
+    background-color: #f9fafb;
+    color: #1f2937;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+@layer components {
+  .bottom-sheet-overlay {
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(10px);
+  }
+
+  @keyframes slide-up {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  .animate-slide-up {
+    animation: slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+  }
+
+  @keyframes scale-in {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .animate-scale-in {
+    animation: scale-in 0.3s ease-out;
+  }
+
+  @keyframes slide-in-left {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+  }
+  .animate-slide-in-left {
+    animation: slide-in-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Safe area for bottom nav */
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* Better text readability */
+  .text-readable-sm {
+    @apply text-xs font-medium text-gray-600 dark:text-gray-300;
+  }
+  .text-readable-base {
+    @apply text-sm font-medium text-gray-700 dark:text-gray-200;
+  }
+  .text-readable-muted {
+    @apply text-xs font-medium text-gray-500 dark:text-gray-400;
+  }
+}
