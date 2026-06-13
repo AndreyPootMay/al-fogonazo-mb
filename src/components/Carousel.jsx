@@ -52,7 +52,7 @@ export default function Carousel() {
           >
             <img src={promo.img} alt={promo.title} className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex flex-col justify-end p-6">
-              <span className="text-primary font-bold text-xs uppercase tracking-widest mb-1">
+              <span className="text-white font-black text-xs uppercase tracking-widest mb-1">
                 Oferta de Hoy
               </span>
               <h2 className="text-white text-2xl font-bold">{promo.title}</h2>

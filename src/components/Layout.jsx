@@ -4,14 +4,11 @@ import BottomNav from './BottomNav'
 import SideMenu from './SideMenu'
 import CartModal from './CartModal'
 import CheckoutModal from './CheckoutModal'
-import AuthModal from './AuthModal'
 import ProductModal from './ProductModal'
 import { useUIStore } from '../stores/useUIStore'
-import { useAuthStore } from '../stores/useAuthStore'
 
 export default function Layout({ children }) {
   const { darkMode } = useUIStore()
-  const { initialize } = useAuthStore()
 
   useEffect(() => {
     if (darkMode) {
@@ -21,10 +18,6 @@ export default function Layout({ children }) {
     }
   }, [darkMode])
 
-  useEffect(() => {
-    initialize()
-  }, [initialize])
-
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-darkBg transition-colors">
       <Header />
@@ -33,7 +26,6 @@ export default function Layout({ children }) {
       <SideMenu />
       <CartModal />
       <CheckoutModal />
-      <AuthModal />
       <ProductModal />
     </div>
   )

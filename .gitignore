@@ -3,3 +3,13 @@ dist
 .env
 .env.local
 *.local
+
+# Capacitor - plataforma Android (se genera en CI)
+android/
+ios/
+
+# Keystore - NUNCA subir al repo
+*.keystore
+*.jks
+fogonazo-release-base64.txt
+env-variables.txt

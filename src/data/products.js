@@ -3,7 +3,8 @@ export const categories = [
   { id: 2, name: 'ARRACHERA', slug: 'arrachera', icon: 'fa-fire-flame-curved' },
   { id: 3, name: 'PAPAS', slug: 'papas', icon: 'fa-seedling' },
   { id: 4, name: 'COMBOS', slug: 'combos', icon: 'fa-layer-group' },
-  { id: 5, name: 'EXTRAS', slug: 'extras', icon: 'fa-plus-circle' },
+  { id: 5, name: 'BEBIDAS', slug: 'bebidas', icon: 'fa-bottle-water' },
+  { id: 6, name: 'EXTRAS', slug: 'extras', icon: 'fa-plus-circle' },
 ]
 
 export const products = [
@@ -132,6 +133,26 @@ export const products = [
     price: 30,
     category: 'EXTRAS',
     image: '/imagenes_productos/tortilla.webp',
+  },
+
+  // Bebidas
+  {
+    id: 14,
+    name: 'Coca Cola 500ml',
+    description: 'Coca Cola en presentacion de 500ml, bien fria.',
+    includes: null,
+    price: 30,
+    category: 'BEBIDAS',
+    image: '/imagenes_productos/coca_cola_500_ml.jpeg',
+  },
+  {
+    id: 15,
+    name: 'Coca Cola 1.75L',
+    description: 'Coca Cola familiar de 1.75 litros, perfecta para compartir.',
+    includes: null,
+    price: 40,
+    category: 'BEBIDAS',
+    image: '/imagenes_productos/coca_cola_1_35ml.webp',
   },
 ]
 

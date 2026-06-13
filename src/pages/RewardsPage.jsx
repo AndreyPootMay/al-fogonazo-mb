@@ -1,6 +1,3 @@
-import { useAuthStore } from '../stores/useAuthStore'
-import { useUIStore } from '../stores/useUIStore'
-
 const tiers = [
   {
     name: 'Bronce',
@@ -41,13 +38,6 @@ const tiers = [
 ]
 
 export default function RewardsPage() {
-  const { profile, user } = useAuthStore()
-  const { setAuthModalOpen } = useUIStore()
-
-  const currentTier = profile?.rewards_tiers?.name || 'Bronce'
-  const currentPoints = profile?.total_points || 0
-  const totalOrders = profile?.total_orders || 0
-
   return (
     <div className="px-4 py-6 space-y-6">
       {/* Header */}
@@ -60,58 +50,6 @@ export default function RewardsPage() {
           Gana puntos con cada pedido
         </p>
       </div>
-
-      {!user ? (
-        /* Not logged in */
-        <div className="bg-white dark:bg-darkCard rounded-3xl p-6 text-center border border-gray-100 dark:border-gray-800 space-y-4">
-          <i className="fas fa-lock text-4xl text-gray-300 dark:text-gray-600"></i>
-          <div>
-            <h3 className="font-bold text-gray-900 dark:text-white text-base">
-              Unete a nuestro programa
-            </h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-              Registrate para empezar a acumular puntos y acceder a descuentos exclusivos.
-              Recibiras promociones especiales y subiras de nivel con cada pedido.
-            </p>
-          </div>
-          <button
-            onClick={() => setAuthModalOpen(true)}
-            className="bg-primary text-white px-8 py-3 rounded-xl font-bold text-sm active:scale-95 transition-transform"
-          >
-            <i className="fas fa-user-plus mr-2"></i>
-            Registrarme
-          </button>
-        </div>
-      ) : (
-        /* User stats */
-        <div className="bg-white dark:bg-darkCard rounded-3xl p-5 border border-gray-100 dark:border-gray-800">
-          <div className="flex items-center gap-4 mb-4">
-            <div
-              className="w-14 h-14 rounded-full flex items-center justify-center"
-              style={{ backgroundColor: tiers.find((t) => t.name === currentTier)?.color + '20' }}
-            >
-              <i
-                className={`fas ${tiers.find((t) => t.name === currentTier)?.icon} text-xl`}
-                style={{ color: tiers.find((t) => t.name === currentTier)?.color }}
-              ></i>
-            </div>
-            <div>
-              <p className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Tu nivel</p>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white">{currentTier}</h3>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-3 text-center">
-              <p className="text-2xl font-bold text-primary">{currentPoints}</p>
-              <p className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase">Puntos</p>
-            </div>
-            <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-3 text-center">
-              <p className="text-2xl font-bold text-primary">{totalOrders}</p>
-              <p className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase">Pedidos</p>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* How it works */}
       <div>
@@ -147,11 +85,7 @@ export default function RewardsPage() {
           {tiers.map((tier) => (
             <div
               key={tier.name}
-              className={`bg-white dark:bg-darkCard rounded-2xl p-4 border transition-all ${
-                currentTier === tier.name
-                  ? 'border-primary shadow-lg shadow-primary/10'
-                  : 'border-gray-100 dark:border-gray-800'
-              }`}
+              className="bg-white dark:bg-darkCard rounded-2xl p-4 border border-gray-100 dark:border-gray-800"
             >
               <div className="flex items-center gap-3 mb-3">
                 <i className={`fas ${tier.icon} text-lg`} style={{ color: tier.color }}></i>
@@ -161,11 +95,6 @@ export default function RewardsPage() {
                     {tier.minPoints}+ puntos | {tier.discount} desc. | {tier.multiplier} puntos
                   </p>
                 </div>
-                {currentTier === tier.name && (
-                  <span className="text-[10px] font-bold text-primary bg-primary/10 px-2 py-1 rounded-full uppercase">
-                    Actual
-                  </span>
-                )}
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {tier.benefits.map((b, i) => (

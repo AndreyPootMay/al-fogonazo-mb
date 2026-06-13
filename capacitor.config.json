@@ -1,0 +1,22 @@
+{
+  "appId": "com.fogonazo.alfogonazo",
+  "appName": "Asadero Al Fogonazo",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#050505",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER_CROP",
+      "showSpinner": false,
+      "androidSpinnerStyle": "large",
+      "iosSpinnerStyle": "large",
+      "spinnerColor": "#DC2626",
+      "splashFullScreen": true,
+      "splashImmersive": true
+    }
+  }
+}

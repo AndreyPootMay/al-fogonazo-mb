@@ -1,21 +1,18 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useUIStore } from '../stores/useUIStore'
 import { useCartStore } from '../stores/useCartStore'
-import { useAuthStore } from '../stores/useAuthStore'
 
 export default function BottomNav() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { setCartModalOpen, setAuthModalOpen } = useUIStore()
+  const { setCartModalOpen } = useUIStore()
   const cart = useCartStore((s) => s.cart)
   const cartCount = cart.reduce((acc, i) => acc + i.quantity, 0)
-  const { user } = useAuthStore()
 
   const tabs = [
     { id: 'home', icon: 'fa-fire', label: 'Inicio', action: () => navigate('/') },
     { id: 'rewards', icon: 'fa-star', label: 'Puntos', action: () => navigate('/recompensas') },
     { id: 'cart', icon: 'fa-shopping-bag', label: 'Pedido', action: () => setCartModalOpen(true), badge: cartCount },
-    { id: 'account', icon: 'fa-user', label: 'Cuenta', action: () => user ? navigate('/cuenta') : setAuthModalOpen(true) },
   ]
 
   const activeTab = location.pathname === '/' ? 'home' : location.pathname === '/recompensas' ? 'rewards' : null

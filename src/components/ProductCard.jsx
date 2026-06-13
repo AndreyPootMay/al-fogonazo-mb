@@ -9,14 +9,18 @@ export default function ProductCard({ product }) {
     <div className="flex bg-white dark:bg-darkCard rounded-2xl p-3 shadow-sm border border-gray-100 dark:border-gray-800 hover:border-primary/30 transition-all">
       <button
         onClick={() => setSelectedProduct(product)}
-        className="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden flex-shrink-0"
+        className="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center"
       >
-        <img
-          src={product.image}
-          alt={product.name}
-          className="w-full h-full object-cover hover:scale-105 transition-transform"
-          loading="lazy"
-        />
+        {product.image ? (
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-full object-cover hover:scale-105 transition-transform"
+            loading="lazy"
+          />
+        ) : (
+          <i className="fas fa-utensils text-gray-400 dark:text-gray-600 text-2xl"></i>
+        )}
       </button>
       <div className="ml-3 flex-1 flex flex-col justify-between min-w-0">
         <div>

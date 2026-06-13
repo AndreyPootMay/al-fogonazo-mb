@@ -1,16 +1,12 @@
 import { useState } from 'react'
-import { useMutation } from '@tanstack/react-query'
 import { useCartStore } from '../stores/useCartStore'
 import { useUIStore } from '../stores/useUIStore'
-import { useAuthStore } from '../stores/useAuthStore'
-import { supabase } from '../lib/supabase'
 import { getUserLocation, calculateDistance, calculateDeliveryFee, getMapsLink } from '../utils/delivery'
 import { sendOrderWhatsApp } from '../utils/whatsapp'
 
 export default function CheckoutModal() {
   const { checkoutModalOpen, setCheckoutModalOpen, checkoutStep, setCheckoutStep } = useUIStore()
   const { cart, clearCart } = useCartStore()
-  const { user } = useAuthStore()
   const cartTotal = cart.reduce((acc, i) => acc + i.price * i.quantity, 0)
 
   const [form, setForm] = useState({
@@ -41,53 +37,7 @@ export default function CheckoutModal() {
     }
   }
 
-  const createOrderMutation = useMutation({
-    mutationFn: async (orderData) => {
-      const { data, error } = await supabase
-        .from('orders')
-        .insert(orderData)
-        .select()
-        .single()
-      if (error) throw error
-      return data
-    },
-  })
-
-  const handleSubmitOrder = async () => {
-    const orderData = {
-      user_id: user?.id || null,
-      customer_name: form.name,
-      customer_phone: form.phone,
-      delivery_address: address,
-      delivery_lat: location?.latitude,
-      delivery_lng: location?.longitude,
-      delivery_distance: distance,
-      delivery_fee: deliveryFee,
-      subtotal: cartTotal,
-      total: cartTotal + deliveryFee,
-      payment_method: form.paymentMethod,
-      change_amount: form.paymentMethod === 'Efectivo' ? Number(form.changeOf) || null : null,
-      whatsapp_sent: true,
-      whatsapp_sent_at: new Date().toISOString(),
-    }
-
-    try {
-      const order = await createOrderMutation.mutateAsync(orderData)
-
-      // Save order items
-      const items = cart.map((item) => ({
-        order_id: order.id,
-        product_id: typeof item.id === 'number' ? item.id : null,
-        product_name: item.name,
-        quantity: item.quantity,
-        unit_price: item.price,
-        subtotal: item.price * item.quantity,
-      }))
-      await supabase.from('order_items').insert(items)
-    } catch {
-      // Order saving failed silently - WhatsApp will still be sent
-    }
-
+  const handleSubmitOrder = () => {
     sendOrderWhatsApp({
       cart,
       user: form,
@@ -317,14 +267,9 @@ export default function CheckoutModal() {
                 </button>
                 <button
                   onClick={handleSubmitOrder}
-                  disabled={createOrderMutation.isPending}
-                  className="flex-1 bg-[#25D366] text-white py-4 rounded-2xl font-black flex items-center justify-center gap-3 shadow-xl shadow-green-500/20 active:scale-95 transition-transform uppercase text-sm tracking-widest disabled:opacity-40"
+                  className="flex-1 bg-[#25D366] text-white py-4 rounded-2xl font-black flex items-center justify-center gap-3 shadow-xl shadow-green-500/20 active:scale-95 transition-transform uppercase text-sm tracking-widest"
                 >
-                  {createOrderMutation.isPending ? (
-                    <><i className="fas fa-spinner fa-spin"></i> Enviando...</>
-                  ) : (
-                    <><i className="fab fa-whatsapp text-2xl"></i> Enviar Pedido</>
-                  )}
+                  <i className="fab fa-whatsapp text-2xl"></i> Enviar Pedido
                 </button>
               </div>
             </div>

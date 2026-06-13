@@ -14,12 +14,18 @@ export default function ProductModal() {
       <div className="absolute inset-0" onClick={close} />
       <div className="relative w-full max-w-md bg-white dark:bg-darkCard rounded-t-[2.5rem] shadow-2xl animate-slide-up max-h-[85vh] flex flex-col overflow-hidden">
         {/* Image */}
-        <div className="relative h-56 flex-shrink-0">
-          <img
-            src={selectedProduct.image}
-            alt={selectedProduct.name}
-            className="w-full h-full object-cover"
-          />
+        <div className="relative h-56 flex-shrink-0 bg-gray-100 dark:bg-gray-800">
+          {selectedProduct.image ? (
+            <img
+              src={selectedProduct.image}
+              alt={selectedProduct.name}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <i className="fas fa-utensils text-gray-300 dark:text-gray-600 text-5xl"></i>
+            </div>
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           <button
             onClick={close}
