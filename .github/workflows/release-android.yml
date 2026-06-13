@@ -57,6 +57,13 @@ jobs:
       - name: Sincronizar Capacitor con Android
         run: npx cap sync android
 
+      - name: Agregar permisos de ubicacion al AndroidManifest
+        run: |
+          MANIFEST="android/app/src/main/AndroidManifest.xml"
+          sed -i 's|<uses-permission android:name="android.permission.INTERNET" />|<uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />\n    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />|' "$MANIFEST"
+          echo "✅ Permisos de ubicacion agregados"
+          grep -i "location" "$MANIFEST"
+
       - name: Generar íconos y splash screen para Android
         run: npx @capacitor/assets generate --android
 
