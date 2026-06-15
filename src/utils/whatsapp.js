@@ -5,10 +5,9 @@ export function sendOrderWhatsApp({ cart, user, address, distance, deliveryFee, 
     .map((i) => `- ${i.quantity}x ${i.name} ($${i.price * i.quantity})`)
     .join('\n')
 
-  const payment =
-    user.paymentMethod === 'Efectivo'
-      ? `Efectivo (El cliente pagara con billete de: $${user.changeOf || 'Cambio exacto'})`
-      : user.paymentMethod
+  const payment = user.changeOf
+    ? `Efectivo — pagara con billete de $${user.changeOf}`
+    : `Efectivo — cambio exacto`
 
   const text = `🔥 *PEDIDO - AL FOGONAZO*
 
@@ -22,7 +21,7 @@ export function sendOrderWhatsApp({ cart, user, address, distance, deliveryFee, 
 🍗 *Productos:*
 ${items}
 
-💳 *Metodo de Pago:* ${payment}
+💵 *Pago:* ${payment}
 💰 *TOTAL:* $${cartTotal + deliveryFee}`
 
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank')

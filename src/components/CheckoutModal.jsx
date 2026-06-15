@@ -12,7 +12,6 @@ export default function CheckoutModal() {
   const [form, setForm] = useState({
     name: '',
     phone: '',
-    paymentMethod: 'Efectivo',
     changeOf: '',
   })
   const [location, setLocation] = useState(null)
@@ -179,62 +178,35 @@ export default function CheckoutModal() {
             <div className="space-y-5">
               <div className="space-y-3">
                 <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase ml-2 tracking-widest">
-                  Metodo de Pago
+                  Pago en Efectivo
                 </label>
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    onClick={() => setForm({ ...form, paymentMethod: 'Efectivo' })}
-                    className={`py-4 border-2 rounded-2xl font-bold transition-all text-sm ${
-                      form.paymentMethod === 'Efectivo'
-                        ? 'border-primary bg-primary/5 text-primary'
-                        : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 opacity-50'
-                    }`}
-                  >
-                    <i className="fas fa-money-bill-wave mb-2 text-lg block"></i>
-                    Efectivo
-                  </button>
-                  <button
-                    onClick={() => setForm({ ...form, paymentMethod: 'Tarjeta (Terminal)' })}
-                    className={`py-4 border-2 rounded-2xl font-bold transition-all text-sm ${
-                      form.paymentMethod === 'Tarjeta (Terminal)'
-                        ? 'border-primary bg-primary/5 text-primary'
-                        : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 opacity-50'
-                    }`}
-                  >
-                    <i className="fas fa-credit-card mb-2 text-lg block"></i>
-                    Tarjeta
-                  </button>
-                </div>
-
-                {form.paymentMethod === 'Efectivo' && (
-                  <div className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-700">
-                    <p className="text-[10px] text-gray-400 dark:text-gray-500 font-black uppercase mb-3 tracking-wider">
-                      Con cuanto pagas? (Billetes)
-                    </p>
-                    <div className="flex gap-2">
-                      {[200, 500, 1000].map((val) => (
-                        <button
-                          key={val}
-                          onClick={() => setForm({ ...form, changeOf: val })}
-                          className={`flex-1 py-2 text-xs font-bold rounded-lg border transition-all ${
-                            Number(form.changeOf) === val
-                              ? 'bg-primary text-white border-primary'
-                              : 'border-gray-200 dark:border-gray-700 text-gray-700 dark:text-white'
-                          }`}
-                        >
-                          ${val}
-                        </button>
-                      ))}
-                    </div>
-                    <input
-                      type="number"
-                      value={form.changeOf}
-                      onChange={(e) => setForm({ ...form, changeOf: e.target.value })}
-                      placeholder="Otro monto"
-                      className="w-full mt-3 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-xl py-2 px-4 outline-none border border-gray-200 dark:border-gray-700 text-sm font-medium"
-                    />
+                <div className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-700">
+                  <p className="text-[10px] text-gray-400 dark:text-gray-500 font-black uppercase mb-3 tracking-wider">
+                    Con cuanto vas a pagar?
+                  </p>
+                  <div className="flex gap-2">
+                    {[50, 100, 200, 500].map((val) => (
+                      <button
+                        key={val}
+                        onClick={() => setForm({ ...form, changeOf: val })}
+                        className={`flex-1 py-2 text-xs font-bold rounded-lg border transition-all ${
+                          Number(form.changeOf) === val
+                            ? 'bg-primary text-white border-primary'
+                            : 'border-gray-200 dark:border-gray-700 text-gray-700 dark:text-white'
+                        }`}
+                      >
+                        ${val}
+                      </button>
+                    ))}
                   </div>
-                )}
+                  <input
+                    type="number"
+                    value={form.changeOf}
+                    onChange={(e) => setForm({ ...form, changeOf: e.target.value })}
+                    placeholder="Otro monto"
+                    className="w-full mt-3 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-xl py-2 px-4 outline-none border border-gray-200 dark:border-gray-700 text-sm font-medium"
+                  />
+                </div>
               </div>
 
               {/* Order Summary */}
