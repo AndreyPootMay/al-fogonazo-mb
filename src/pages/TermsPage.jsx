@@ -55,6 +55,10 @@ const sections = [
     title: '14. Legislacion aplicable y jurisdiccion',
     content: `Estos terminos y condiciones se rigen por las leyes vigentes en los Estados Unidos Mexicanos. Cualquier controversia derivada del uso del servicio sera resuelta ante los tribunales competentes de Cancun, Quintana Roo, Mexico, renunciando expresamente a cualquier otro fuero que pudiera corresponder.`,
   },
+  {
+    title: '15. Eliminacion de datos personales',
+    content: `Si deseas solicitar la eliminacion de tus datos personales de nuestros sistemas, puedes enviar tu solicitud al correo electronico andreypootmay@gmail.com. Procesaremos tu solicitud en un plazo maximo de 15 dias habiles y confirmaremos la eliminacion una vez completada.`,
+  },
 ]
 
 export default function TermsPage() {
