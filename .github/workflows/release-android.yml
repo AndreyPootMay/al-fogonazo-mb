@@ -36,6 +36,8 @@ jobs:
     steps:
       - name: Checkout repositorio
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
 
       - name: Configurar Node.js 20
         uses: actions/setup-node@v4
@@ -56,6 +58,21 @@ jobs:
 
       - name: Sincronizar Capacitor con Android
         run: npx cap sync android
+
+      - name: Leer e incrementar versionCode
+        id: version
+        run: |
+          source version.properties
+          NEW_VERSION_CODE=$((VERSION_CODE + 1))
+          echo "OLD_VERSION=$VERSION_CODE" >> $GITHUB_OUTPUT
+          echo "NEW_VERSION=$NEW_VERSION_CODE" >> $GITHUB_OUTPUT
+          echo "VersionCode: $VERSION_CODE -> $NEW_VERSION_CODE"
+
+      - name: Aplicar versionCode en build.gradle
+        run: |
+          sed -i "s/versionCode [0-9]\+/versionCode ${{ steps.version.outputs.NEW_VERSION }}/" android/app/build.gradle
+          echo "✅ versionCode actualizado a ${{ steps.version.outputs.NEW_VERSION }} en android/app/build.gradle"
+          grep "versionCode" android/app/build.gradle
 
       - name: Agregar permisos de ubicacion al AndroidManifest
         run: |
@@ -168,6 +185,17 @@ jobs:
             android/app/build/outputs/bundle/release/app-release-signed.aab
           draft: false
           prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit versionCode incrementado
+        run: |
+          echo "VERSION_CODE=${{ steps.version.outputs.NEW_VERSION }}" > version.properties
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add version.properties
+          git commit -m "chore: increment versionCode to ${{ steps.version.outputs.NEW_VERSION }} [skip ci]"
+          git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
