@@ -1,4 +1,4 @@
-const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '5219983170365'
+const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '5219983701376'
 
 export function sendOrderWhatsApp({ cart, user, address, distance, deliveryFee, cartTotal }) {
   const items = cart
